@@ -26,47 +26,6 @@ function onMove(x, y) {
 window.addEventListener("pointermove", (e) => onMove(e.clientX, e.clientY), { passive: true });
 window.addEventListener("pointerleave", () => { tx = 0; ty = 0; });
 
-// touch: drive the scene with device orientation. Neutral pose is whatever
-// angle the phone is held at when the first reading arrives, so the scene
-// starts centered instead of assuming a fixed 30deg tilt.
-const TILT_RANGE = 25;
-let baseBeta = null;
-let baseGamma = null;
-
-function onOrientation(e) {
-  if (e.gamma == null || e.beta == null) return;
-  if (baseBeta === null) {
-    baseBeta = e.beta;
-    baseGamma = e.gamma;
-  }
-  const gx = Math.max(-TILT_RANGE, Math.min(TILT_RANGE, e.gamma - baseGamma)) / TILT_RANGE;
-  const gy = Math.max(-TILT_RANGE, Math.min(TILT_RANGE, e.beta - baseBeta)) / TILT_RANGE;
-  tx = gx;
-  ty = gy;
-}
-
-function attachOrientation() {
-  window.addEventListener("deviceorientation", onOrientation, { passive: true });
-}
-
-// iOS 13+ only delivers orientation events after an explicit permission
-// request made from a user gesture; everything else can listen right away.
-if (typeof DeviceOrientationEvent !== "undefined") {
-  if (typeof DeviceOrientationEvent.requestPermission === "function") {
-    const ask = () => {
-      DeviceOrientationEvent.requestPermission()
-        .then((state) => { if (state === "granted") attachOrientation(); })
-        .catch(() => {});
-      window.removeEventListener("touchend", ask);
-      window.removeEventListener("click", ask);
-    };
-    window.addEventListener("touchend", ask, { passive: true });
-    window.addEventListener("click", ask);
-  } else {
-    attachOrientation();
-  }
-}
-
 let t = 0;
 
 function frame() {
