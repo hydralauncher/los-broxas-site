@@ -24,22 +24,6 @@ body {
   cursor: crosshair;
 }
 
-body::before {
-  /* full-screen grid, drifts against the pointer like a second parallax plane */
-  content: "";
-  position: fixed;
-  inset: -80px;
-  pointer-events: none;
-  background-image:
-    linear-gradient(rgba(243, 240, 234, 0.07) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(243, 240, 234, 0.07) 1px, transparent 1px);
-  background-size: 56px 56px;
-  transform: translate3d(var(--gx, 0px), var(--gy, 0px), 0);
-  -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, #000 30%, rgba(0, 0, 0, 0.35) 70%, transparent 100%);
-  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, #000 30%, rgba(0, 0, 0, 0.35) 70%, transparent 100%);
-  will-change: transform;
-}
-
 body::after {
   /* film grain, matches the fuzzy edge of the wallpaper pill */
   content: "";

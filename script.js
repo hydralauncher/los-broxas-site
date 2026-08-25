@@ -66,11 +66,6 @@ function frame() {
   // pill drifts against the logo
   pill.style.transform = `translate3d(${(-px * 10).toFixed(1)}px, ${(-py * 6).toFixed(1)}px, 0)`;
 
-  // background grid: slides against the pointer, behind everything
-  const bs = document.body.style;
-  bs.setProperty("--gx", `${(-px * 28).toFixed(1)}px`);
-  bs.setProperty("--gy", `${(-py * 20).toFixed(1)}px`);
-
   requestAnimationFrame(frame);
 }
 
